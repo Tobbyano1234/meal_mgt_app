@@ -1,8 +1,10 @@
 # render.yaml
 
 environment:
+  NODE_VERSION: 14
   NODE_ENV: production
 
 build:
   commands:
+    - nvm install 14.17.0
     - nest build
