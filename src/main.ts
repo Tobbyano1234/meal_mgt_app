@@ -1,11 +1,13 @@
 import * as dotenv from "dotenv";
 dotenv.config()
-import { NestFactory } from '@nestjs/core';
+// import { NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/ng-universal';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { Environment } from './common/enums/environment-variables.enum';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
+import { join } from "path";
 
 
 // createDBFunction()
@@ -26,7 +28,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
-  const port = process.env.SERVER_PORT;
+  const port = process.env.SERVER_PORT || 3000;
   const environment = process.env.NODE_ENV as Environment;
 
   app.use(helmet());
@@ -61,6 +63,12 @@ async function bootstrap() {
     origin: getAllowedOrigins(environment),
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
+  });
+
+  app.enableAngularUniversal({
+    viewsPath: join(process.cwd(), 'dist/browser'),
+    bundle: require('../server/main'),
+    liveReload: true
   });
 
   await app.listen(port);
