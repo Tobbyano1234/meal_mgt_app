@@ -1,3 +1,3 @@
 #!/bin/bash
-yarn prebuild
+# yarn prebuild
 yarn build
