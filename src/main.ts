@@ -1,25 +1,25 @@
 import * as dotenv from "dotenv";
 dotenv.config()
-// import { NestFactory } from '@nestjs/core';
-import { NestFactory } from '@nestjs/ng-universal';
+import { NestFactory } from '@nestjs/core';
+// import { NestFactory } from '@nestjs/ng-universal';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { Environment } from './common/enums/environment-variables.enum';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
-import { join } from "path";
+// import { join } from "path";
 
 
 // createDBFunction()
-const getAllowedOrigins = (environment: Environment) => {
-  //TODO: add origins for staging and production environments
+// const getAllowedOrigins = (environment: Environment) => {
+//   //TODO: add origins for staging and production environments
 
-  if (environment === Environment.DEVELOPMENT) {
-    return ['http://localhost:3000'];
-  }
+//   if (environment === Environment.DEVELOPMENT) {
+//     return ['http://localhost:3000'];
+//   }
 
-  return '*';
-};
+//   return '*';
+// };
 
 
 async function bootstrap() {
@@ -60,16 +60,17 @@ async function bootstrap() {
 
   // We configure the cross origins to allow requests from our frontend
   app.enableCors({
-    origin: getAllowedOrigins(environment),
+//     origin: getAllowedOrigins(environment),
+    origin: "*",
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
 
-  app.enableAngularUniversal({
-    viewsPath: join(process.cwd(), 'dist/browser'),
-    bundle: require('../server/main'),
-    liveReload: true
-  });
+//   app.enableAngularUniversal({
+//     viewsPath: join(process.cwd(), 'dist/browser'),
+//     bundle: require('../server/main'),
+//     liveReload: true
+//   });
 
   await app.listen(port);
 }
